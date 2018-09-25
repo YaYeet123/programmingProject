@@ -1,0 +1,100 @@
+<!doctype html>
+
+<body>
+    <canvas id="gameCanvas" width="480" height="640"> </canvas>
+    <script>
+        var canvas, canvasContext, imgAssests;
+
+        window.onload = function() {
+            canvas = document.getElementById('gameCanvas');
+            canvasContext = canvas.getContext('2d');
+
+            imgAssests = loadImgAssests();
+            
+            document.addEventListener('keydown', keyPressed)
+            document.addEventListener('keyup', keyReleased)
+            
+            setInterval(mainLoop, 1000 / 60);
+        }
+        //player info//
+        var playerXpos = 235;
+        var playerYpos = 200;
+        var playerXspeed = 5;
+        var playerYspeed = 0;
+        var playerWidth = 50;
+        var playerHeight = 80;
+
+        //player keyPressing//
+        const LEFT_ARROW_KEY = 37;
+        const RIGHT_ARROW_KEY = 39;
+        var leftArrowKeyPressed = false;
+        var rightArrowKeyPressed = false;
+        
+        //enemy info//
+        var enemyXpos = 0;
+        var enemyYpos = 0;
+        var enemyXspeed = 0;
+        var enemyYspeed = 15;
+        var enemyWidth = 10;
+        var enemyHeight = 10;
+
+        
+        function mainLoop() {
+            colorRect(0, 0, canvas.width, canvas.height, '#00bfff'); //bg
+            drawingImages(img.player, playerXpos, playerYpos, playerWidth, playerHeight); //player
+            
+            
+            playerMove();
+        }
+
+        function colorRect(x, y, w, h, c) {
+            canvasContext.fillStyle = c;
+            canvasContext.fillRect(x, y, w, h);
+        }
+        
+        function keyPressed(evt) {
+            if(evt.keyCode == LEFT_ARROW_KEY){
+                leftArrowKeyPressed = true;
+            }
+            if(evt.keyCode == RIGHT_ARROW_KEY){
+                rightArrowKeyPressed = true;
+            }
+        }
+        
+        function keyReleased(evt){
+            console.log(evt.keyCode)
+            if(evt.keyCode == LEFT_ARROW_KEY){
+                leftArrowKeyPressed = false;
+            }
+            if(evt.keyCode == RIGHT_ARROW_KEY){
+                rightArrowKeyPressed = false;
+            }
+        }
+        function playerMove(){
+            if(leftArrowKeyPressed){ //player moves left
+                playerXpos -= playerXspeed
+                if(playerXpos < 0 - playerWidth / 2){ //player goes to the other side when they touch one side
+                    playerXpos = canvas.width - playerWidth;
+                }
+            }
+            if(rightArrowKeyPressed){ //player moves right
+                playerXpos += playerXspeed;
+                if(playerXpos > canvas.width - playerWidth  / 2){ //player goes to the other side when they touch one side
+                    playerXpos = 0;
+                }
+            }
+        }
+        function loadImgAssests() {
+            img = {};
+            img.player = new Image();
+            img.player.src = 'images/balloonMain.png';
+            
+            return img;
+        }
+        function drawingImages(image,dx,dy,w,h){
+            canvasContext.drawImage(image,dx,dy,w,h);
+        }
+        
+        fun
+    </script>
+</body>
